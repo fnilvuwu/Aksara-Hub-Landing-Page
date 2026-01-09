@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aksara.id | Masa Depan Pembelajaran Budaya</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Sora', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            red: '#E11D48',
+                            dark: '#0F172A',
+                            gray: '#F8FAFC',
+                        }
+                    },
+                    backgroundImage: {
+                        'dot-pattern': "radial-gradient(#CBD5E1 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Utilities */
+        body { font-family: 'Sora', sans-serif; -webkit-font-smoothing: antialiased; }
+        .bg-dots { background-size: 24px 24px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Animation for SPA Transition */
+        .fade-enter { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .hidden-view { display: none !important; }
+        .active-nav { color: #E11D48 !important; }
+        
+        /* Transition for swapping nav elements */
+        .nav-element-enter { animation: slideInNav 0.3s ease-out forwards; }
+        @keyframes slideInNav { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-white text-brand-dark selection:bg-brand-red selection:text-white flex flex-col min-h-screen">
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#home" onclick="navigateTo(event, 'home')" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 bg-brand-red rounded-lg flex items-center justify-center text-white font-bold text-xl group-hover:rotate-12 transition-transform">A</div>
+                <span class="font-bold text-xl tracking-tight">Aksara<span class="text-brand-red">.id</span></span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" onclick="navigateTo(event, 'home')" id="nav-home" class="text-sm font-medium text-slate-600 hover:text-brand-red transition-colors">Beranda</a>
+                
+                <div class="relative group">
+                    <button class="flex items-center gap-1.5 text-sm font-medium text-slate-600 group-hover:text-brand-red transition-colors cursor-pointer py-2">
+                        Fitur <i class="ph-bold ph-caret-down text-xs transition-transform duration-300 group-hover:-rotate-180"></i>
+                    </button>
+                    <div class="absolute top-full -left-4 pt-4 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 pointer-events-none group-hover:pointer-events-auto">
+                        <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-2 flex flex-col gap-1">
+                            <a href="#feature-penerjemah" onclick="navigateTo(event, 'home', 'feature-penerjemah')" class="px-4 py-2.5 text-sm text-slate-600 hover:bg-red-50 hover:text-brand-red rounded-xl transition-all block">Penerjemah</a>
+                            <a href="#feature-latihan" onclick="navigateTo(event, 'home', 'feature-latihan')" class="px-4 py-2.5 text-sm text-slate-600 hover:bg-red-50 hover:text-brand-red rounded-xl transition-all block">Latihan Aksara</a>
+                            <a href="#feature-quiz" onclick="navigateTo(event, 'home', 'feature-quiz')" class="px-4 py-2.5 text-sm text-slate-600 hover:bg-red-50 hover:text-brand-red rounded-xl transition-all block">Quiz Aksara</a>
+                            <a href="#feature-kamus" onclick="navigateTo(event, 'home', 'feature-kamus')" class="px-4 py-2.5 text-sm text-slate-600 hover:bg-red-50 hover:text-brand-red rounded-xl transition-all block">Kamus Aksara</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative group">
+                    <button onclick="navigateTo(event, 'about')" id="nav-about" class="flex items-center gap-1.5 text-sm font-medium text-slate-600 group-hover:text-brand-red transition-colors cursor-pointer py-2">
+                        Tentang Kami <i class="ph-bold ph-caret-down text-xs transition-transform duration-300 group-hover:-rotate-180"></i>
+                    </button>
+                    <div class="absolute top-full -left-4 pt-4 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 pointer-events-none group-hover:pointer-events-auto">
+                        <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-2 flex flex-col gap-1">
+                            <a href="#visi-misi" onclick="navigateTo(event, 'about', 'visi-misi')" class="px-4 py-2.5 text-sm text-slate-600 hover:bg-red-50 hover:text-brand-red rounded-xl transition-all block">Visi Misi</a>
+                            <a href="#tim" onclick="navigateTo(event, 'about', 'tim')" class="px-4 py-2.5 text-sm text-slate-600 hover:bg-red-50 hover:text-brand-red rounded-xl transition-all block">Tim Kami</a>
+                            <a href="#kolaborator" onclick="navigateTo(event, 'about', 'kolaborator')" class="px-4 py-2.5 text-sm text-slate-600 hover:bg-red-50 hover:text-brand-red rounded-xl transition-all block">Kolaborator</a>
+                            <a href="#contact" onclick="navigateTo(event, 'about', 'contact')" class="px-4 py-2.5 text-sm text-slate-600 hover:bg-red-50 hover:text-brand-red rounded-xl transition-all block">Kontak Kami</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#faqs" onclick="navigateTo(event, 'faqs')" id="nav-faqs" class="text-sm font-medium text-slate-600 hover:text-brand-red transition-colors">FAQs</a>
+            </div>
+
+            <div class="hidden md:flex items-center justify-end min-w-[180px]">
+                <!-- Language Dropdown (Default on Hero) -->
+                <div id="nav-lang-dropdown" class="relative group">
+                    <button class="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-brand-red transition-colors py-2 px-4 border border-slate-200 rounded-full hover:border-brand-red hover:bg-red-50 group-hover:shadow-md">
+                        <i class="ph-bold ph-globe text-lg"></i> ID <i class="ph-bold ph-caret-down text-xs"></i>
+                    </button>
+                    <div class="absolute top-full right-0 pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 pointer-events-none group-hover:pointer-events-auto">
+                        <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-2 flex flex-col gap-1">
+                            <button class="px-4 py-2.5 text-sm text-brand-red bg-red-50 rounded-xl font-bold flex items-center justify-between w-full text-left">
+                                Indonesia <i class="ph-bold ph-check"></i>
+                            </button>
+                            <button class="px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-brand-dark rounded-xl transition-all w-full text-left">
+                                English
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Button (Shows after scrolling past Hero) -->
+                <a href="#feature-latihan" onclick="navigateTo(event, 'home', 'feature-latihan')" id="nav-cta-btn" class="hidden bg-brand-red text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-red-700 hover:shadow-lg hover:shadow-red-500/20 transition-all transform hover:-translate-y-0.5">
+                    Coba Sekarang
+                </a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-2xl text-slate-700">
+                <i class="ph ph-list"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full px-6 py-4 flex flex-col gap-4 shadow-xl max-h-[80vh] overflow-y-auto">
+            <a href="#home" onclick="navigateTo(event, 'home')" class="text-sm font-medium text-slate-600">Beranda</a>
+            <div class="space-y-3">
+                <div class="text-sm font-medium text-slate-600 flex items-center justify-between">Fitur</div>
+                <div class="pl-4 flex flex-col gap-3 border-l-2 border-slate-100 ml-1">
+                    <a href="#feature-penerjemah" onclick="navigateTo(event, 'home', 'feature-penerjemah')" class="text-sm text-slate-500 hover:text-brand-red block">Penerjemah</a>
+                    <a href="#feature-latihan" onclick="navigateTo(event, 'home', 'feature-latihan')" class="text-sm text-slate-500 hover:text-brand-red block">Latihan</a>
+                    <a href="#feature-quiz" onclick="navigateTo(event, 'home', 'feature-quiz')" class="text-sm text-slate-500 hover:text-brand-red block">Quiz</a>
+                </div>
+            </div>
+            <a href="#about" onclick="navigateTo(event, 'about')" class="text-sm font-medium text-slate-600">Tentang Kami</a>
+            <a href="#faqs" onclick="navigateTo(event, 'faqs')" class="text-sm font-medium text-slate-600">FAQs</a>
+            <a href="#contact" onclick="navigateTo(event, 'about', 'contact')" class="text-sm font-medium text-slate-600">Kontak</a>
+            <div class="h-px bg-slate-100 my-2"></div>
+            <a href="#feature-latihan" onclick="navigateTo(event, 'home', 'feature-latihan')" class="bg-brand-red text-white text-center py-3 rounded-xl font-semibold">Coba Sekarang</a>
+        </div>
+    </nav>
+
+    <div id="view-home" class="fade-enter">
+        
+        <section id="hero" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
+            <div class="absolute inset-0 bg-dot-pattern bg-dots opacity-30 pointer-events-none -z-10"></div>
+            <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-slate-50 to-transparent -z-10"></div>
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="space-y-8">
+                        <h1 class="text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-brand-dark">
+                            Jembatan Budaya, <br>
+                            <span class="text-brand-red relative inline-block">Penghubung Generasi</span>
+                        </h1>
+                        <p class="text-lg text-slate-600 max-w-lg leading-relaxed mx-auto">
+                            Aksara.id hadir sebagai platform budaya digital terintegrasi yang menjembatani warisan aksara Nusantara dengan dunia modern.
+                        </p>
+                        <div class="flex flex-wrap justify-center items-center gap-4">
+                            <a href="#feature-latihan" onclick="navigateTo(event, 'home', 'feature-latihan')" class="bg-brand-red text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-red-700 hover:shadow-xl hover:shadow-red-500/20 transition-all transform hover:-translate-y-1">
+                                Coba Sekarang
+                            </a>
+                            <a href="#features" onclick="navigateTo(event, 'home', 'features')" class="px-8 py-4 rounded-full font-semibold text-brand-dark border border-slate-200 hover:border-brand-red hover:text-brand-red transition-all flex items-center gap-2 bg-white">
+                                <i class="ph ph-play-circle text-xl"></i> Lihat Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-slate-50 border-t border-slate-100">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16 max-w-3xl mx-auto">
+                    <h2 class="text-2xl lg:text-3xl font-bold text-slate-800 mb-4">Mengapa Aksara.id?</h2>
+                    <p class="text-slate-600 text-lg leading-relaxed">
+                        Aksara.id menawarkan pengalaman belajar aksara Nusantara dengan mudah, menyenangkan, dan relevan dengan dunia digital.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-brand-red/5 hover:-translate-y-1 transition-all group">
+                        <div class="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center text-brand-red text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="ph-fill ph-confetti"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3">Belajar Interaktif & Menyenangkan</h3>
+                        <p class="text-slate-500 leading-relaxed text-sm">Latihan menulis, kuis interaktif, dan umpan balik instan membuat belajar aksara terasa lebih seru.</p>
+                    </div>
+                    <div class="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-brand-red/5 hover:-translate-y-1 transition-all group">
+                        <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="ph-fill ph-speaker-high"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3">Dukungan Visual & Audio</h3>
+                        <p class="text-slate-500 leading-relaxed text-sm">Setiap aksara dilengkapi visual yang jelas dan audio pelafalan untuk membantu memahami bentuk.</p>
+                    </div>
+                    <div class="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-brand-red/5 hover:-translate-y-1 transition-all group">
+                        <div class="w-14 h-14 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="ph-fill ph-scan"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3">Penerjemah Instan Multi Input</h3>
+                        <p class="text-slate-500 leading-relaxed text-sm">Terjemahkan aksara secara cepat melalui teks, dokumen, atau gambar dengan dukungan teknologi OCR.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-brand-red py-12 relative overflow-hidden">
+            <div class="absolute inset-0 bg-dot-pattern opacity-10 pointer-events-none"></div>
+            <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+                <p class="text-sm font-semibold text-white/80 uppercase tracking-widest mb-8">Didukung Oleh:</p>
+                <div class="flex flex-col justify-center items-center gap-4">
+                    <div class="bg-white p-4 rounded-2xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Logo_of_Ministry_of_Education_and_Culture_of_Republic_of_Indonesia.svg" alt="Logo Balai Bahasa" class="h-20 w-auto">
+                    </div>
+                    <h3 class="text-lg font-bold font-serif text-white opacity-90">Balai Bahasa Provinsi Sulawesi Selatan</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-6 text-center max-w-3xl">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-brand-dark">Fitur Unggulan Aksara.id</h2>
+                <p class="text-slate-600 text-lg">Coba sekarang juga dan rasakan pengalaman baru dalam mengenal dan belajar aksara.</p>
+            </div>
+        </section>
+
+        <section id="feature-penerjemah" class="py-20 bg-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                    <div class="w-full lg:w-1/2 space-y-6 text-center">
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-brand-red text-2xl mx-auto">
+                            <i class="ph-fill ph-translate"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-brand-dark">Penerjemah Aksara–Latin</h3>
+                        <p class="text-lg font-semibold text-brand-red">Terjemahkan aksara hanya dalam hitungan detik.</p>
+                        <p class="text-slate-600 text-lg leading-relaxed">
+                            Gunakan teks, dokumen, atau gambar untuk menerjemahkan aksara secara instan.
+                        </p>
+                        <div class="flex items-center gap-2 text-brand-red font-bold bg-red-50 px-4 py-2 rounded-lg w-fit cursor-default mx-auto">
+                            <i class="ph-bold ph-cursor-click"></i> Klik tombol Terjemahkan
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/2 relative group">
+                        <div class="absolute inset-0 bg-red-100 rounded-[2rem] transform rotate-2 transition-transform group-hover:rotate-3"></div>
+                        <div class="relative bg-white border border-slate-200 rounded-[2rem] p-8 shadow-xl">
+                            <div class="space-y-6">
+                                <div class="flex gap-4">
+                                    <div class="w-1/2">
+                                        <label class="text-xs font-bold text-brand-red uppercase mb-2 block">Lontara</label>
+                                        <textarea id="demo-lontara-input" class="w-full h-32 text-4xl font-serif text-brand-dark border-2 border-slate-200 rounded-xl p-3 focus:border-brand-red focus:ring-4 focus:ring-red-50 outline-none transition-all resize-none">ᨕᨁ ᨀᨑᨙᨅ</textarea>
+                                    </div>
+                                    <div class="w-1/2">
+                                        <label class="text-xs font-bold text-slate-400 uppercase mb-2 block">Latin</label>
+                                        <div class="w-full h-32 bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-center text-center overflow-hidden transition-all duration-500 relative">
+                                            <div id="latin-blur" class="absolute inset-0 bg-slate-100/80 backdrop-blur-sm z-10 flex items-center justify-center text-slate-400 text-xs font-medium transition-opacity duration-500">
+                                                Hasil Terjemahan
+                                            </div>
+                                            <p id="demo-latin-result" class="text-lg font-bold text-slate-700 opacity-0 transition-opacity duration-500 transform translate-y-2">Aga Kareba</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center">
+                                    <button id="btn-terjemahkan" onclick="revealTranslation()" class="bg-brand-red text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-red-700 hover:shadow-red-500/30 transition-all flex items-center gap-2 transform active:scale-95">
+                                        <i class="ph-bold ph-translate"></i> Terjemahkan
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-xs text-center text-slate-400 mt-6">*Ini adalah simulasi demo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="feature-latihan" class="py-20 bg-slate-50 overflow-hidden border-y border-slate-100">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-20">
+                    <div class="w-full lg:w-1/2 space-y-6 text-center">
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-brand-red text-2xl mx-auto">
+                            <i class="ph-fill ph-pencil-line"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-brand-dark">Latihan Aksara</h3>
+                        <p class="text-lg font-semibold text-brand-red">Rasakan langsung bagaimana menulis aksara Nusantara.</p>
+                        <p class="text-slate-600 text-lg leading-relaxed">
+                            Ikuti pola, dengarkan pelafalan, dan coba menulis aksara secara interaktif.
+                        </p>
+                        <div class="flex items-center gap-2 text-red-700 font-bold bg-red-50 px-4 py-2 rounded-lg w-fit cursor-default mx-auto">
+                            <i class="ph-bold ph-hand-pointing"></i> Geser kursor di atas huruf
+                        </div>
+                    </div>
+
+                    <div class="w-full lg:w-1/2 relative group">
+                        <div class="absolute inset-0 bg-red-100 rounded-[2.5rem] transform -rotate-2 transition-transform group-hover:-rotate-3"></div>
+                        <div class="relative bg-white border border-slate-200 rounded-[2.5rem] p-6 shadow-2xl h-[450px] w-full max-w-sm mx-auto flex flex-col overflow-hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <span class="text-[10px] font-extrabold bg-slate-100 text-slate-500 px-3 py-1.5 rounded-full uppercase tracking-wider">Aksara Dasar</span>
+                                <div class="flex gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-brand-red"></span>
+                                    <span class="w-2 h-2 rounded-full bg-slate-200"></span>
+                                    <span class="w-2 h-2 rounded-full bg-slate-200"></span>
+                                </div>
+                            </div>
+                            <!-- Drawing Area -->
+                            <div class="flex-1 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl relative flex items-center justify-center overflow-hidden cursor-crosshair group/canvas" id="drawing-area">
+                                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(#94a3b8 1px, transparent 1px), linear-gradient(90deg, #94a3b8 1px, transparent 1px); background-size: 40px 40px;"></div>
+                                <span class="text-[12rem] text-slate-200 font-sans font-bold absolute select-none pointer-events-none tracking-tighter leading-none">//</span>
+                            </div>
+
+                            <!-- Buttons (Bersihkan & Periksa) -->
+                            <div class="mt-6 flex gap-4 px-2">
+                                <button class="flex-1 py-3 border-2 border-slate-200 text-slate-500 rounded-xl font-bold hover:border-slate-300 hover:text-slate-700 hover:bg-slate-50 transition-all flex items-center justify-center gap-2" onclick="clearCanvas()">
+                                    <i class="ph-bold ph-eraser"></i> Bersihkan
+                                </button>
+                                <button class="flex-1 py-3 bg-brand-red text-white rounded-xl font-bold shadow-lg hover:bg-red-700 transition-all flex items-center justify-center gap-2" onclick="checkCanvas()">
+                                    <i class="ph-bold ph-check-circle"></i> Periksa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="feature-quiz" class="py-20 bg-white overflow-hidden border-t border-slate-100">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                    <div class="w-full lg:w-1/2 space-y-6 text-center">
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-brand-red text-2xl mx-auto">
+                            <i class="ph-fill ph-game-controller"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-brand-dark">Kuis Aksara</h3>
+                        <p class="text-lg font-semibold text-brand-red">Uji pemahaman Anda dengan cara yang menyenangkan.</p>
+                        <p class="text-slate-600 text-lg leading-relaxed">
+                            Jawab kuis interaktif dan lihat seberapa jauh Anda mengenal aksara.
+                        </p>
+                        <div class="flex items-center gap-2 text-brand-red font-bold bg-red-50 px-4 py-2 rounded-lg w-fit cursor-default mx-auto">
+                            <i class="ph-bold ph-check-square-offset"></i> Pilih satu jawaban yang benar
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/2 relative group">
+                        <div class="absolute inset-0 bg-red-100 rounded-[2rem] transform -rotate-2 transition-transform group-hover:-rotate-3"></div>
+                        
+                        <!-- Main visual background -->
+                        <div class="relative bg-white border border-slate-200 rounded-[2rem] p-8 shadow-xl flex items-center justify-center h-[400px]">
+                            
+                            <!-- Inner area -->
+                            <div class="w-full h-full bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl relative flex flex-col items-center justify-center p-4 overflow-hidden">
+                                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(#94a3b8 1px, transparent 1px), linear-gradient(90deg, #94a3b8 1px, transparent 1px); background-size: 40px 40px;"></div>
+                                
+                                <div class="w-full max-w-sm relative z-10 space-y-6">
+                                    <div class="bg-white p-6 rounded-2xl text-center shadow-lg relative overflow-hidden border border-slate-100">
+                                        <div class="w-full h-1 bg-slate-100 absolute top-0 left-0">
+                                            <div class="w-3/4 h-full bg-brand-red"></div>
+                                        </div>
+                                        <p class="text-slate-400 text-xs uppercase font-bold mb-2">Pertanyaan</p>
+                                        <div class="text-7xl font-serif text-brand-dark mb-2">ᨆ</div>
+                                        <p class="text-slate-500 font-medium">Bunyi karakter di atas?</p>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4" id="quiz-options">
+                                        <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-red-50 text-brand-dark py-4 rounded-xl font-bold transition-all border-2 border-brand-red hover:shadow-md text-sm">NA</button>
+                                        <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-red-50 text-brand-dark py-4 rounded-xl font-bold transition-all border-2 border-brand-red hover:shadow-md text-sm">MA</button>
+                                        <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-red-50 text-brand-dark py-4 rounded-xl font-bold transition-all border-2 border-brand-red hover:shadow-md text-sm">CA</button>
+                                        <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-red-50 text-brand-dark py-4 rounded-xl font-bold transition-all border-2 border-brand-red hover:shadow-md text-sm">DA</button>
+                                    </div>
+                                    <div id="quiz-feedback" class="hidden text-center font-bold text-white bg-slate-700 py-3 rounded-lg animate-pulse border border-slate-600">
+                                        Jawaban Benar! 🎉
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="feature-kamus" class="py-20 bg-slate-50 overflow-hidden border-y border-slate-100">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-20">
+                    <div class="w-full lg:w-1/2 space-y-6 text-center">
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-brand-red text-2xl mx-auto">
+                            <i class="ph-fill ph-book-bookmark"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-brand-dark">Kamus Aksara</h3>
+                        <p class="text-lg font-semibold text-brand-red">Cari arti, lihat bentuk, dengar bunyinya.</p>
+                        <p class="text-slate-600 text-lg leading-relaxed">
+                            Pelajari aksara melalui visual dan audio yang mudah dipahami.
+                        </p>
+                        <div class="flex items-center gap-2 text-brand-red font-bold bg-red-50 px-4 py-2 rounded-lg w-fit cursor-default mx-auto">
+                            <i class="ph-bold ph-cursor-click"></i> Klik ikon speaker di kartu
+                        </div>
+                    </div>
+
+                    <div class="w-full lg:w-1/2 relative group">
+                        <div class="absolute inset-0 bg-red-100 rounded-[2rem] transform rotate-2 transition-transform group-hover:rotate-3"></div>
+                        <div class="relative bg-white border border-slate-200 rounded-[2rem] p-8 shadow-xl flex items-center justify-center h-[500px]"> 
+                            <div class="w-80 bg-white rounded-2xl shadow-xl border border-slate-100 p-6 relative overflow-hidden group/card cursor-pointer transform hover:-translate-y-1 transition-all duration-300" onclick="playAudioDemo()">
+                                
+                                <div class="w-full h-40 bg-slate-100 rounded-xl mb-4 flex flex-col items-center justify-center text-slate-300 relative overflow-hidden group-hover/card:bg-slate-50 transition-colors">
+                                    <i class="ph-duotone ph-image text-5xl mb-1"></i>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Ilustrasi (Rumah)</span>
+                                </div>
+
+                                <!-- Audio Player Bar (Long line style) -->
+                                <div class="w-full py-3 border-b border-slate-100 mb-4 flex items-center gap-3 cursor-pointer group/audio" onclick="event.stopPropagation(); playAudioDemo()">
+                                    <div class="w-10 h-10 rounded-full bg-brand-red text-white flex items-center justify-center shadow-md group-hover/audio:scale-105 transition-transform shrink-0">
+                                        <i id="audio-icon" class="ph-fill ph-play text-lg"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                             <div id="audio-progress" class="h-full w-0 bg-brand-red rounded-full"></div>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-bold text-slate-400">Audio</span>
+                                </div>
+                                
+                                <!-- Grid Layout 2x2 -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="text-left border-r border-slate-100 pr-2">
+                                        <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Latin</p>
+                                        <h4 class="text-xl font-bold text-brand-dark">Balla</h4>
+                                    </div>
+                                    <div class="text-right pl-2">
+                                        <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Aksara</p>
+                                        <span class="text-3xl font-serif text-brand-dark">ᨅᨒ</span>
+                                    </div>
+                                    <div class="text-left border-r border-slate-100 pr-2 border-t border-slate-100 pt-3">
+                                        <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Ejaan</p>
+                                        <p class="text-sm font-medium text-slate-600">bál-la</p>
+                                    </div>
+                                    <div class="text-right pl-2 border-t border-slate-100 pt-3">
+                                        <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Arti</p>
+                                        <p class="text-sm font-medium text-slate-600">Rumah</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-brand-dark">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="bg-white rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden shadow-2xl">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-red/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                    <div class="absolute bottom-0 left-0 w-64 h-64 bg-brand-red/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+                    
+                    <h2 class="text-3xl lg:text-5xl font-bold mb-6 text-brand-dark">Siap mencoba cara baru <br><span class="text-brand-red">belajar Aksara?</span></h2>
+                    <p class="text-lg text-slate-600 mb-10 max-w-2xl mx-auto">
+                        Mulai perjalanan Anda mengenal, memahami, dan menggunakan aksara Nusantara melalui pengalaman belajar yang interaktif.
+                    </p>
+                    <div class="flex justify-center">
+                        <a href="#feature-latihan" onclick="navigateTo(event, 'home', 'feature-latihan')" class="px-10 py-4 bg-brand-red text-white rounded-full font-bold text-lg hover:bg-red-700 shadow-xl shadow-red-500/30 transition-all hover:-translate-y-1 flex items-center gap-2 group">
+                            Mulai Belajar Aksara <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <div id="view-about" class="hidden-view fade-enter">
+        <header class="pt-32 pb-16 bg-slate-50 relative overflow-hidden">
+            <div class="absolute inset-0 bg-dot-pattern bg-dots opacity-30 pointer-events-none"></div>
+            <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+                <h1 class="text-4xl lg:text-5xl font-bold text-brand-dark mb-4">Tentang Kami</h1>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">Mengenal lebih dekat visi, misi, dan orang-orang hebat di balik inisiatif pelestarian budaya Aksara.id.</p>
+            </div>
+        </header>
+
+        <section id="visi-misi" class="py-24 bg-white relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center max-w-4xl mx-auto mb-20">
+                    <span class="text-brand-red font-bold tracking-widest uppercase text-sm mb-4 block">Visi Kami</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-brand-dark mb-8 leading-tight">
+                        Menjadi platform digital terdepan dalam pelestarian aksara Nusantara.
+                    </h2>
+                    <div class="p-8 bg-brand-red rounded-3xl text-white relative overflow-hidden shadow-xl shadow-red-500/20 group mx-auto max-w-3xl">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                        <i class="ph-fill ph-quotes text-4xl text-red-200 mb-4 block"></i>
+                        <p class="text-lg font-medium leading-relaxed relative z-10">
+                            "Mengintegrasikan teknologi, budaya, dan kolaborasi, dengan generasi muda sebagai penggerak utama."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="max-w-5xl mx-auto">
+                    <div class="text-center mb-10">
+                        <span class="text-slate-400 font-bold tracking-widest uppercase text-sm block">Misi Kami</span>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="flex gap-4 p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:border-red-100 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300 group">
+                            <div class="w-12 h-12 flex-shrink-0 bg-white rounded-xl flex items-center justify-center text-brand-red shadow-sm border border-slate-100 group-hover:bg-red-50 transition-colors">
+                                <i class="ph-fill ph-student text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-dark text-lg mb-2">Pembelajaran Menarik</h4>
+                                <p class="text-slate-600 leading-relaxed">Menyediakan platform pembelajaran aksara yang menarik dan mudah dipahami.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:border-red-100 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300 group">
+                            <div class="w-12 h-12 flex-shrink-0 bg-white rounded-xl flex items-center justify-center text-brand-red shadow-sm border border-slate-100 group-hover:bg-red-50 transition-colors">
+                                <i class="ph-fill ph-database text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-dark text-lg mb-2">Data Terintegrasi</h4>
+                                <p class="text-slate-600 leading-relaxed">Menyediakan data aksara Nusantara yang terintegrasi dan terpercaya.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:border-red-100 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300 group">
+                            <div class="w-12 h-12 flex-shrink-0 bg-white rounded-xl flex items-center justify-center text-brand-red shadow-sm border border-slate-100 group-hover:bg-red-50 transition-colors">
+                                <i class="ph-fill ph-users-three text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-dark text-lg mb-2">Kolaborasi Aktif</h4>
+                                <p class="text-slate-600 leading-relaxed">Mendorong gerakan pelestarian yang aktif dan kolaboratif.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:border-red-100 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300 group">
+                            <div class="w-12 h-12 flex-shrink-0 bg-white rounded-xl flex items-center justify-center text-brand-red shadow-sm border border-slate-100 group-hover:bg-red-50 transition-colors">
+                                <i class="ph-fill ph-trend-up text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-brand-dark text-lg mb-2">Ekonomi Budaya</h4>
+                                <p class="text-slate-600 leading-relaxed">Membuka peluang baru bagi berkembangnya ekonomi budaya.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tim" class="py-24 bg-slate-50 border-t border-slate-100 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 text-center mb-12">
+                <span class="text-brand-red font-bold tracking-widest uppercase text-sm mb-4 block">Tim Kami</span>
+                <h2 class="text-3xl lg:text-4xl font-bold text-brand-dark">Di Balik Layar Aksara.id</h2>
+            </div>
+            <div class="relative max-w-full">
+                <div class="absolute inset-y-0 left-0 w-16 lg:w-48 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute inset-y-0 right-0 w-16 lg:w-48 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
+                <div class="flex overflow-x-auto gap-8 px-8 lg:px-[calc(50vw-220px)] pb-12 snap-x snap-mandatory scroll-smooth no-scrollbar" id="team-scroll">
+                    <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl border border-slate-100 shadow-lg snap-center flex flex-col items-center p-4 transform transition-transform hover:-translate-y-2 duration-300 group">
+                        <div class="w-full aspect-square rounded-xl overflow-hidden border-4 border-slate-50 mb-4 shadow-md group-hover:border-red-50 transition-colors">
+                            <img src="https://placehold.co/400x400/e11d48/ffffff?text=Founder" alt="Founder" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-dark">Andi Putra Aditya Pratama</h3>
+                        <p class="text-brand-red font-medium text-sm">Project Manager</p>
+                    </div>
+                    <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl border border-slate-100 shadow-lg snap-center flex flex-col items-center p-4 transform transition-transform hover:-translate-y-2 duration-300 group">
+                        <div class="w-full aspect-square rounded-xl overflow-hidden border-4 border-slate-50 mb-4 shadow-md group-hover:border-red-50 transition-colors">
+                            <img src="https://placehold.co/400x400/0f172a/ffffff?text=Founder" alt="Founder" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-dark">Aldi Perdana Asri</h3>
+                        <p class="text-brand-red font-medium text-sm">Web Developer</p>
+                    </div>
+                    <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl border border-slate-100 shadow-lg snap-center flex flex-col items-center p-4 transform transition-transform hover:-translate-y-2 duration-300 group">
+                        <div class="w-full aspect-square rounded-xl overflow-hidden border-4 border-slate-50 mb-4 shadow-md group-hover:border-red-50 transition-colors">
+                            <img src="https://placehold.co/400x400/475569/ffffff?text=Founder" alt="Founder" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-dark">Muhammad Haerul</h3>
+                        <p class="text-brand-red font-medium text-sm">AI / ML Engineer</p>
+                    </div>
+                    <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl border border-slate-100 shadow-lg snap-center flex flex-col items-center p-4 transform transition-transform hover:-translate-y-2 duration-300 group">
+                        <div class="w-full aspect-square rounded-xl overflow-hidden border-4 border-slate-50 mb-4 shadow-md group-hover:border-red-50 transition-colors">
+                            <img src="https://placehold.co/400x400/475569/ffffff?text=Founder" alt="Founder" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-dark">Rahmatullah. R</h3>
+                        <p class="text-brand-red font-medium text-sm">AI / ML Engineer</p>
+                    </div>
+                    <div class="min-w-[280px] md:min-w-[320px] bg-white rounded-2xl border border-slate-100 shadow-lg snap-center flex flex-col items-center p-4 transform transition-transform hover:-translate-y-2 duration-300 group">
+                        <div class="w-full aspect-square rounded-xl overflow-hidden border-4 border-slate-50 mb-4 shadow-md group-hover:border-red-50 transition-colors">
+                            <img src="https://placehold.co/400x400/475569/ffffff?text=Founder" alt="Founder" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-dark">Nur Auliyana. T</h3>
+                        <p class="text-brand-red font-medium text-sm">Pemerhati Budaya</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kolaborator" class="py-24 bg-white border-t border-slate-100">
+            <div class="max-w-5xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <span class="text-brand-red font-bold tracking-widest uppercase text-sm mb-4 block">Kolaborasi</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-brand-dark mb-4">Kontributor & Kolaborator</h2>
+                    <p class="text-slate-500 text-lg max-w-2xl mx-auto">
+                        Terima kasih kepada para ahli budaya, akademisi, dan relawan yang telah mendedikasikan waktu dan ilmunya.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4 font-medium text-slate-700">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 p-3 border-b border-slate-50 hover:bg-slate-50 rounded-lg transition-all duration-200 group">
+                            <div class="w-2 h-2 rounded-full bg-slate-200 group-hover:bg-brand-red transition-colors"></div>
+                            <span>Prof. Dr. Ahmad Hidayat, M.Hum.</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 border-b border-slate-50 hover:bg-slate-50 rounded-lg transition-all duration-200 group">
+                            <div class="w-2 h-2 rounded-full bg-slate-200 group-hover:bg-brand-red transition-colors"></div>
+                            <span>Dr. Siti Nurhaliza</span>
+                        </div>
+                         <div class="flex items-center gap-3 p-3 border-b border-slate-50 hover:bg-slate-50 rounded-lg transition-all duration-200 group">
+                            <div class="w-2 h-2 rounded-full bg-slate-200 group-hover:bg-brand-red transition-colors"></div>
+                            <span>Budi Pratama, S.S.</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 p-3 border-b border-slate-50 hover:bg-slate-50 rounded-lg transition-all duration-200 group">
+                            <div class="w-2 h-2 rounded-full bg-slate-200 group-hover:bg-brand-red transition-colors"></div>
+                            <span>Kartika Sari, M.Li.</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 border-b border-slate-50 hover:bg-slate-50 rounded-lg transition-all duration-200 group">
+                            <div class="w-2 h-2 rounded-full bg-slate-200 group-hover:bg-brand-red transition-colors"></div>
+                            <span>Lukman Hakim</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 border-b border-slate-50 hover:bg-slate-50 rounded-lg transition-all duration-200 group">
+                            <div class="w-2 h-2 rounded-full bg-slate-200 group-hover:bg-brand-red transition-colors"></div>
+                            <span>Maya Putri</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-24 bg-slate-50 border-t border-slate-100">
+            <div class="max-w-4xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-brand-dark">Kami Terbuka untuk Kolaborasi</h2>
+                    <p class="text-slate-600 text-lg leading-relaxed max-w-2xl mx-auto">
+                        Aksara.id bukan hanya sekadar platform, tetapi sebuah gerakan. Kami mengundang anda untuk tumbuh dan berdampak bersama.
+                    </p>
+                </div>
+                <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 md:p-12 border border-slate-100 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-red/5 rounded-bl-full pointer-events-none"></div>
+                    <form class="space-y-6 relative z-10">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-brand-dark ml-1">Nama*</label>
+                                <input type="text" class="w-full px-5 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-red-50 outline-none transition-all placeholder:text-slate-400" placeholder="Nama Anda">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-brand-dark ml-1">Email*</label>
+                                <input type="email" class="w-full px-5 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-red-50 outline-none transition-all placeholder:text-slate-400" placeholder="Email Anda">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-brand-dark ml-1">Institusi*</label>
+                            <input type="text" class="w-full px-5 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-red-50 outline-none transition-all placeholder:text-slate-400" placeholder="Institusi Anda">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-brand-dark ml-1">Pesan</label>
+                            <textarea rows="4" class="w-full px-5 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-brand-red focus:ring-4 focus:ring-red-50 outline-none transition-all placeholder:text-slate-400 resize-none" placeholder="Deskripsikan kebutuhan anda..."></textarea>
+                        </div>
+                        <div class="pt-4">
+                            <button type="button" class="w-full bg-brand-red text-white font-bold py-4 rounded-xl hover:bg-red-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 transform duration-200 flex items-center justify-center gap-2 group">
+                                <span>Kirim</span>
+                                <i class="ph-bold ph-paper-plane-right group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div> <div id="view-faqs" class="hidden-view fade-enter">
+        <header class="pt-32 pb-16 bg-slate-50 relative overflow-hidden">
+            <div class="absolute inset-0 bg-dot-pattern bg-dots opacity-30 pointer-events-none"></div>
+            <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+                <h1 class="text-4xl lg:text-5xl font-bold text-brand-dark mb-4">Pusat Bantuan</h1>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">Jawaban untuk pertanyaan yang sering diajukan seputar penggunaan Aksara.id.</p>
+            </div>
+        </header>
+
+        <section id="faqs" class="py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <details class="group bg-white rounded-2xl border border-slate-200 open:border-brand-red/30 open:shadow-lg open:shadow-red-500/5 transition-all duration-300" open>
+                            <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                                <h3 class="font-bold text-lg text-brand-dark group-open:text-brand-red transition-colors">Apa itu Aksara.id?</h3>
+                                <span class="w-8 h-8 flex items-center justify-center bg-slate-50 rounded-lg text-slate-400 group-open:bg-red-50 group-open:text-brand-red transition-all">
+                                    <i class="ph-bold ph-plus group-open:hidden"></i><i class="ph-bold ph-minus hidden group-open:block"></i>
+                                </span>
+                            </summary>
+                            <div class="px-6 pb-6 text-slate-600 leading-relaxed animate-in slide-in-from-top-2 fade-in duration-300">
+                                Aksara.id adalah platform edukasi digital yang didedikasikan untuk pelestarian aksara Nusantara.
+                            </div>
+                        </details>
+                        <details class="group bg-white rounded-2xl border border-slate-200 open:border-brand-red/30 open:shadow-lg open:shadow-red-500/5 transition-all duration-300">
+                            <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                                <h3 class="font-bold text-lg text-brand-dark group-open:text-brand-red transition-colors">Apakah gratis?</h3>
+                                <span class="w-8 h-8 flex items-center justify-center bg-slate-50 rounded-lg text-slate-400 group-open:bg-red-50 group-open:text-brand-red transition-all">
+                                    <i class="ph-bold ph-plus group-open:hidden"></i><i class="ph-bold ph-minus hidden group-open:block"></i>
+                                </span>
+                            </summary>
+                            <div class="px-6 pb-6 text-slate-600 leading-relaxed animate-in slide-in-from-top-2 fade-in duration-300">
+                                Ya! Fitur utama dapat diakses secara gratis.
+                            </div>
+                        </details>
+                    </div>
+                    <div class="space-y-4">
+                        <details class="group bg-white rounded-2xl border border-slate-200 open:border-brand-red/30 open:shadow-lg open:shadow-red-500/5 transition-all duration-300">
+                            <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                                <h3 class="font-bold text-lg text-brand-dark group-open:text-brand-red transition-colors">Siapa penyusun materi?</h3>
+                                <span class="w-8 h-8 flex items-center justify-center bg-slate-50 rounded-lg text-slate-400 group-open:bg-red-50 group-open:text-brand-red transition-all">
+                                    <i class="ph-bold ph-plus group-open:hidden"></i><i class="ph-bold ph-minus hidden group-open:block"></i>
+                                </span>
+                            </summary>
+                            <div class="px-6 pb-6 text-slate-600 leading-relaxed animate-in slide-in-from-top-2 fade-in duration-300">
+                                Materi disusun bersama Balai Bahasa dan akademisi terpercaya.
+                            </div>
+                        </details>
+                        <details class="group bg-white rounded-2xl border border-slate-200 open:border-brand-red/30 open:shadow-lg open:shadow-red-500/5 transition-all duration-300">
+                            <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                                <h3 class="font-bold text-lg text-brand-dark group-open:text-brand-red transition-colors">Bisa untuk sekolah?</h3>
+                                <span class="w-8 h-8 flex items-center justify-center bg-slate-50 rounded-lg text-slate-400 group-open:bg-red-50 group-open:text-brand-red transition-all">
+                                    <i class="ph-bold ph-plus group-open:hidden"></i><i class="ph-bold ph-minus hidden group-open:block"></i>
+                                </span>
+                            </summary>
+                            <div class="px-6 pb-6 text-slate-600 leading-relaxed animate-in slide-in-from-top-2 fade-in duration-300">
+                                Tentu, kami memiliki fitur khusus untuk kelas dan guru.
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <footer class="bg-brand-red pt-16 pb-8 text-white mt-auto">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 mb-12">
+            <div class="col-span-1 md:col-span-1">
+                <a href="#home" onclick="navigateTo(event, 'home')" class="flex items-center gap-2 mb-6">
+                    <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-brand-red font-bold text-xl">A</div>
+                    <span class="font-bold text-xl text-white">Aksara.id</span>
+                </a>
+                <p class="text-red-100 text-sm leading-relaxed mb-6">
+                    Platform pendidikan berbasis teknologi untuk melestarikan dan mengajarkan warisan budaya Nusantara kepada generasi digital.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-brand-red transition-all"><i class="ph-fill ph-instagram-logo"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white hover:text-brand-red transition-all"><i class="ph-fill ph-whatsapp-logo"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-6">Fitur Utama</h4>
+                <ul class="space-y-4 text-sm text-red-100">
+                    <li><a href="#feature-latihan" onclick="navigateTo(event, 'home', 'feature-latihan')" class="hover:text-white transition-colors">Latihan Aksara</a></li>
+                    <li><a href="#feature-quiz" onclick="navigateTo(event, 'home', 'feature-quiz')" class="hover:text-white transition-colors">Kuis Aksara</a></li>
+                    <li><a href="#feature-kamus" onclick="navigateTo(event, 'home', 'feature-kamus')" class="hover:text-white transition-colors">Kamus Aksara</a></li>
+                    <li><a href="#feature-penerjemah" onclick="navigateTo(event, 'home', 'feature-penerjemah')" class="hover:text-white transition-colors">Penerjemah</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-6">Tentang</h4>
+                <ul class="space-y-4 text-sm text-red-100">
+                    <li><a href="#about" onclick="navigateTo(event, 'about')" class="hover:text-white transition-colors">Tentang Kami</a></li>
+                    <li><a href="#faqs" onclick="navigateTo(event, 'faqs')" class="hover:text-white transition-colors">FAQs</a></li>
+                    <li><a href="#kolaborator" onclick="navigateTo(event, 'about', 'kolaborator')" class="hover:text-white transition-colors">Kolaborator</a></li>
+                    <li><a href="#contact" onclick="navigateTo(event, 'about', 'contact')" class="hover:text-white transition-colors">Hubungi Kami</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-6">Kantor</h4>
+                <ul class="space-y-4 text-sm text-red-100">
+                    <li class="flex items-start gap-3"><i class="ph-fill ph-map-pin text-white mt-0.5"></i><span>Makassar, Indonesia</span></li>
+                    <li class="flex items-center gap-3"><i class="ph-fill ph-envelope-simple text-white"></i><span>org.aksara.id@gmail.com</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-sm text-red-200">© 2025 Aksara.id. All Right Reserved.</p>
+            <div class="flex gap-6 text-sm text-red-200">
+                <a href="#" class="hover:text-white">Kebijakan Privasi</a>
+                <a href="#" class="hover:text-white">Syarat & Ketentuan</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. SPA ROUTING LOGIC (Updated to include FAQs) ---
+        function navigateTo(event, viewId, anchorId = null) {
+            if(event) event.preventDefault();
+
+            // Views Array
+            const views = ['home', 'about', 'faqs'];
+
+            // Hide all views
+            views.forEach(v => {
+                const el = document.getElementById('view-' + v);
+                if(el) el.classList.add('hidden-view');
+            });
+
+            // Show target view
+            const targetView = document.getElementById('view-' + viewId);
+            if(targetView) targetView.classList.remove('hidden-view');
+
+            // Update Nav Style
+            document.querySelectorAll('nav a, nav button').forEach(el => el.classList.remove('active-nav'));
+            const activeNav = document.getElementById('nav-' + viewId);
+            if(activeNav) activeNav.classList.add('active-nav');
+
+            // Scroll Logic
+            if(anchorId) {
+                setTimeout(() => {
+                    const el = document.getElementById(anchorId);
+                    if(el) el.scrollIntoView({behavior: 'smooth'});
+                }, 50);
+            } else {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+
+            // Close mobile menu
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        // --- 2. DEMO LOGIC (ORIGINAL FEATURES) ---
+        
+        // Translator Demo
+        function revealTranslation() {
+            const resultText = document.getElementById('demo-latin-result');
+            const blurOverlay = document.getElementById('latin-blur');
+            const btn = document.getElementById('btn-terjemahkan');
+            const originalBtnContent = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="ph-bold ph-spinner animate-spin"></i> Memproses...';
+            btn.classList.add('opacity-75', 'pointer-events-none');
+            
+            setTimeout(() => {
+                blurOverlay.classList.add('opacity-0', 'pointer-events-none');
+                resultText.classList.remove('opacity-0', 'translate-y-2');
+                btn.innerHTML = '<i class="ph-bold ph-check"></i> Selesai';
+                btn.classList.remove('opacity-75', 'pointer-events-none', 'bg-brand-red', 'hover:bg-red-700');
+                btn.classList.add('bg-slate-800', 'hover:bg-slate-900'); 
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalBtnContent;
+                    btn.className = "bg-brand-red text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-red-700 hover:shadow-red-500/30 transition-all flex items-center gap-2 transform active:scale-95";
+                }, 3000);
+            }, 800);
+        }
+
+        // Drawing Demo & Logic
+        // // Animasi menulis dihapus/diganti
+        // function startDrawingDemo() { ... } // Removed
+        // function resetDrawing() { ... } // Removed
+
+        function clearCanvas() {
+            const area = document.getElementById('drawing-area');
+            // Visual feedback for clear (flash white)
+            area.classList.add('bg-white');
+            setTimeout(() => area.classList.remove('bg-white'), 200);
+        }
+
+        function checkCanvas() {
+            // Show feedback simulation
+            const feedback = document.createElement('div');
+            feedback.className = "absolute bottom-4 animate-bounce bg-brand-dark text-white px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2 shadow-lg z-20";
+            feedback.innerHTML = '<i class="ph-fill ph-check-circle text-white"></i> Bagus Sekali!';
+            
+            // Ensure parent is relative so absolute pos works
+            const area = document.getElementById('drawing-area');
+            area.appendChild(feedback);
+            
+            setTimeout(() => feedback.remove(), 2000);
+        }
+
+
+        // Audio Demo
+        function playAudioDemo() {
+            const icon = document.getElementById('audio-icon');
+            const progress = document.getElementById('audio-progress');
+            
+            // Simple check to prevent double click while playing
+            if(icon.classList.contains('ph-pause')) return;
+
+            icon.className = "ph-fill ph-pause text-lg";
+            progress.style.width = "100%";
+            
+            setTimeout(() => {
+                icon.className = "ph-fill ph-play text-lg";
+                // Reset progress bar without transition for instant reset effect or keep transition
+                // Here we reset smoothly
+                progress.style.width = "0%";
+            }, 2000);
+        }
+
+        // Quiz Demo
+        function checkAnswer(btn, isCorrect) {
+            const allBtns = document.querySelectorAll('.quiz-btn');
+            const feedback = document.getElementById('quiz-feedback');
+            
+            allBtns.forEach(b => {
+                // Reset style to default: White bg with red stroke
+                b.className = "quiz-btn bg-white hover:bg-red-50 text-brand-dark py-4 rounded-xl font-bold transition-all border-2 border-brand-red hover:shadow-md text-sm";
+            });
+
+            if (isCorrect) {
+                // Correct answer style
+                btn.className = "quiz-btn bg-white text-brand-red py-4 rounded-xl font-bold transition-all border-2 border-brand-red ring-2 ring-red-400 text-sm";
+                feedback.textContent = "Jawaban Benar! 🎉";
+                feedback.className = "text-center font-bold text-white bg-slate-900 py-2 rounded-lg animate-bounce mt-4 block";
+            } else {
+                // Wrong answer style
+                btn.className = "quiz-btn bg-red-900 text-white py-4 rounded-xl font-bold transition-all border-2 border-red-800 text-sm";
+                feedback.textContent = "Kurang Tepat, Coba Lagi! 💪";
+                feedback.className = "text-center font-bold text-white bg-red-600 py-2 rounded-lg animate-bounce mt-4 block";
+            }
+            feedback.classList.remove('hidden');
+        }
+
+        // Initial Load & Mobile Menu
+        document.addEventListener('DOMContentLoaded', () => {
+            // Default View
+            navigateTo(null, 'home');
+
+            // Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if(btn && menu) {
+                btn.onclick = () => {
+                    menu.classList.toggle('hidden');
+                    const icon = btn.querySelector('i');
+                    icon.className = menu.classList.contains('hidden') ? 'ph ph-list' : 'ph ph-x';
+                }
+            }
+
+            // --- Scroll Listener for CTA / Lang Switch ---
+            const hero = document.getElementById('hero');
+            const navCta = document.getElementById('nav-cta-btn');
+            const navLang = document.getElementById('nav-lang-dropdown');
+
+            window.addEventListener('scroll', () => {
+                if (!hero) return;
+                
+                const heroBottom = hero.offsetTop + hero.offsetHeight;
+                const scrollPos = window.scrollY;
+
+                // Threshold: trigger slightly before bottom of hero for better feel
+                if (scrollPos > (heroBottom - 100)) {
+                    // Show CTA, Hide Lang
+                    navLang.classList.add('hidden');
+                    navCta.classList.remove('hidden');
+                    navCta.classList.add('nav-element-enter');
+                } else {
+                    // Show Lang, Hide CTA
+                    navCta.classList.add('hidden');
+                    navCta.classList.remove('nav-element-enter');
+                    navLang.classList.remove('hidden');
+                    navLang.classList.add('nav-element-enter');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
